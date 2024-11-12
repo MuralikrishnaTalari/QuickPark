@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             QuickParkTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "User",
+                        name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
