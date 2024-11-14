@@ -56,6 +56,7 @@ dependencies {
     //Material3
     implementation ("androidx.compose.material:material:1.7.0")
     implementation ("androidx.compose.material:material-icons-extended:1.7.0")
+    implementation(libs.androidx.navigation.compose)
 
     //navigation
     val nav_version = "2.7.7"
