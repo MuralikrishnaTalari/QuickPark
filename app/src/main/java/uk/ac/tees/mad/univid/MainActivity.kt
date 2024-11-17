@@ -4,10 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import uk.ac.tees.mad.univid.screens.SignIN
+import uk.ac.tees.mad.univid.screens.SignUP
 import uk.ac.tees.mad.univid.screens.SplashScreen
 import uk.ac.tees.mad.univid.ui.theme.QuickParkTheme
 
@@ -32,9 +35,20 @@ sealed class ParkingNavigation(val route : String){
 @Composable
 fun parkingApp(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ParkingNavigation.SplashScreen.route) {
-        composable(ParkingNavigation.SplashScreen.route) {
-            SplashScreen(navController = navController)
+    Surface() {
+        NavHost(
+            navController = navController,
+            startDestination = ParkingNavigation.SplashScreen.route
+        ) {
+            composable(ParkingNavigation.SplashScreen.route) {
+                SplashScreen(navController = navController)
+            }
+            composable(ParkingNavigation.LoginScreen.route) {
+                SignIN(navController = navController)
+            }
+            composable(ParkingNavigation.SignUpScreen.route) {
+                SignUP(navController = navController)
+                }
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
+import uk.ac.tees.mad.univid.ParkingNavigation
 import uk.ac.tees.mad.univid.R
 import uk.ac.tees.mad.univid.ui.theme.afacadflux
 import uk.ac.tees.mad.univid.ui.theme.poppins
@@ -43,6 +45,10 @@ fun SplashScreen(navController: NavHostController) {
                 easing = EaseOutBounce
             )
         )
+        delay(3000L)
+        navController.navigate(ParkingNavigation.LoginScreen.route){
+            popUpTo(0)
+        }
     }
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -59,7 +65,7 @@ fun SplashScreen(navController: NavHostController) {
                 .shadow(20.dp)
 
         )
-        Text(text = "QuickPark", fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 24.sp)
-        Text(text = "A Perfect spot for your Machine", fontFamily = afacadflux)
+        Text(text = "QuickPark", fontFamily = poppins, fontWeight = FontWeight.Bold, fontSize = 24.sp,color = colorScheme.onBackground)
+        Text(text = "A Perfect spot for your Machine", fontFamily = afacadflux, color = colorScheme.onBackground)
     }
 }
