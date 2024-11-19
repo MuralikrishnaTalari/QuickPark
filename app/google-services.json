@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "479526975671",
+    "project_id": "quickpark-79a7a",
+    "storage_bucket": "quickpark-79a7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479526975671:android:49160dc88d30d4d298f532",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.univid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOjf2Y14VIvLe8M0VxzXfhXVInsrM-_Kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

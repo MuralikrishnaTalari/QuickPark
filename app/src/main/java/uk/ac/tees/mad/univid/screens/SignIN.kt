@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import uk.ac.tees.mad.univid.ParkingNavigation
 import uk.ac.tees.mad.univid.ui.theme.afacadflux
 import uk.ac.tees.mad.univid.ui.theme.poppins
 
@@ -53,6 +55,7 @@ fun SignIN(navController: NavHostController) {
     var isPasswordVisible by remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
@@ -136,7 +139,7 @@ fun SignIN(navController: NavHostController) {
             Text(text = "Sign in", fontFamily = poppins, fontSize = 24.sp, color = colorScheme.onPrimary)
         }
         Spacer(modifier = Modifier.height(40.dp))
-        IconButton(onClick = { /*TODO*/ },modifier = Modifier
+        IconButton(onClick = { navController.navigate(ParkingNavigation.SignUpScreen.route) },modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 70.dp)
             .clip(RoundedCornerShape(20.dp))

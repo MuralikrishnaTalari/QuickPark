@@ -56,7 +56,7 @@ fun SplashScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.dall_e_2024_10_03_10_24_58___a_clean_and_modern_app_logo_for_a__quick_parking__app__the_design_should_feature_a_parking_symbol__p__prominently__combined_with_a_map_pin_icon_to_rep),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = null,
             modifier = Modifier
                 .size(200.dp)

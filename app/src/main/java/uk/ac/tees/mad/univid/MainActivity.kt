@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import uk.ac.tees.mad.univid.screens.SignIN
 import uk.ac.tees.mad.univid.screens.SignUP
 import uk.ac.tees.mad.univid.screens.SplashScreen
 import uk.ac.tees.mad.univid.ui.theme.QuickParkTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
