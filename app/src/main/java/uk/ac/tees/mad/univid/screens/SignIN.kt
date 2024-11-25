@@ -3,7 +3,6 @@ package uk.ac.tees.mad.univid.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,12 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Mail
-import androidx.compose.material.icons.rounded.RemoveRedEye
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
@@ -25,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,9 +43,10 @@ import androidx.navigation.NavHostController
 import uk.ac.tees.mad.univid.ParkingNavigation
 import uk.ac.tees.mad.univid.ui.theme.afacadflux
 import uk.ac.tees.mad.univid.ui.theme.poppins
+import uk.ac.tees.mad.univid.viewmodel.MainViewModel
 
 @Composable
-fun SignIN(navController: NavHostController) {
+fun SignIN(navController: NavHostController, viewModel: MainViewModel) {
     val email = remember {
         mutableStateOf("")
     }
@@ -56,6 +57,15 @@ fun SignIN(navController: NavHostController) {
         mutableStateOf(false)
     }
     val context = LocalContext.current
+    val loading = viewModel.loading
+    val signed = viewModel.signed
+    LaunchedEffect(key1 = signed.value) {
+        if (signed.value) {
+            navController.navigate(ParkingNavigation.HomeScreen.route){
+                popUpTo(0)
+            }
+        }
+    }
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
@@ -93,7 +103,7 @@ fun SignIN(navController: NavHostController) {
             modifier = Modifier.padding(horizontal = 70.dp)
         )
         Spacer(modifier = Modifier.height(40.dp))
-        OutlinedTextField(value = email.value, onValueChange = { password.value = it }, label = {
+        OutlinedTextField(value = email.value, onValueChange = { email.value = it }, label = {
             Text(
                 text = "Email Address", fontFamily = poppins, color = colorScheme.onBackground
             )
@@ -133,10 +143,19 @@ fun SignIN(navController: NavHostController) {
             }
         )
         Spacer(modifier = Modifier.height(40.dp))
-        Button(onClick = { /*TODO*/ }, shape = RoundedCornerShape(20.dp), modifier = Modifier
+        Button(onClick = { viewModel.signIn(context, email.value, password.value) }, shape = RoundedCornerShape(20.dp), modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 70.dp)) {
-            Text(text = "Sign in", fontFamily = poppins, fontSize = 24.sp, color = colorScheme.onPrimary)
+            if (loading.value) {
+                CircularProgressIndicator()
+            } else {
+                Text(
+                    text = "Sign in",
+                    fontFamily = poppins,
+                    fontSize = 24.sp,
+                    color = colorScheme.onPrimary
+                )
+            }
         }
         Spacer(modifier = Modifier.height(40.dp))
         IconButton(onClick = { navController.navigate(ParkingNavigation.SignUpScreen.route) },modifier = Modifier

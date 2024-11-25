@@ -2,8 +2,6 @@ package uk.ac.tees.mad.univid.screens
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseOutBounce
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -31,9 +29,11 @@ import uk.ac.tees.mad.univid.ParkingNavigation
 import uk.ac.tees.mad.univid.R
 import uk.ac.tees.mad.univid.ui.theme.afacadflux
 import uk.ac.tees.mad.univid.ui.theme.poppins
+import uk.ac.tees.mad.univid.viewmodel.MainViewModel
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen(navController: NavHostController, viewModel: MainViewModel) {
+    val signed = viewModel.signed
     val scale = remember {
         Animatable(0f)
     }
@@ -46,8 +46,14 @@ fun SplashScreen(navController: NavHostController) {
             )
         )
         delay(3000L)
-        navController.navigate(ParkingNavigation.LoginScreen.route){
-            popUpTo(0)
+        if (signed.value){
+            navController.navigate(ParkingNavigation.HomeScreen.route){
+                popUpTo(0)
+            }
+        }else {
+            navController.navigate(ParkingNavigation.LoginScreen.route) {
+                popUpTo(0)
+            }
         }
     }
     Column(
