@@ -1,12 +1,15 @@
 package uk.ac.tees.mad.univid.repository
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.mutableStateOf
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import uk.ac.tees.mad.univid.models.ParkingSpot
 import uk.ac.tees.mad.univid.models.UserData
 import javax.inject.Inject
 
@@ -47,4 +50,11 @@ class QuickParkRepository @Inject constructor(
         return auth.currentUser != null
     }
 
+    suspend fun fetchParkingSpots() : List<ParkingSpot> {
+        val parkingSpots = mutableStateOf<List<ParkingSpot>>(emptyList())
+        val result = firestore.collection("parking_spots").get().await()
+        parkingSpots.value = result.map { it.toObject(ParkingSpot::class.java) }
+        Log.d("ParkingSpots", parkingSpots.value.toString())
+        return parkingSpots.value
+    }
 }

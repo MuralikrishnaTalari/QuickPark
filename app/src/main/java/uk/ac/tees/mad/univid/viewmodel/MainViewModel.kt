@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import uk.ac.tees.mad.univid.models.ParkingSpot
 import uk.ac.tees.mad.univid.models.UserData
 import uk.ac.tees.mad.univid.repository.QuickParkRepository
 import javax.inject.Inject
@@ -18,12 +19,14 @@ class MainViewModel @Inject constructor(
     val signed = mutableStateOf(false)
     val userDetails = mutableStateOf(UserData())
     val loading = mutableStateOf(false)
+    val parkingSpots = mutableStateOf<List<ParkingSpot>>(emptyList())
 
     init {
         viewModelScope.launch {
             signed.value = repository.isSignedIn()
             if (signed.value){
                 getUserDetailsFromRepo()
+                fetchParkingSpot()
             }
         }
     }
@@ -34,6 +37,7 @@ class MainViewModel @Inject constructor(
             signed.value = true
             loading.value = false
             getUserDetailsFromRepo()
+            fetchParkingSpot()
         })
     }
 
@@ -43,12 +47,19 @@ class MainViewModel @Inject constructor(
             signed.value = true
             loading.value = false
             getUserDetailsFromRepo()
+            fetchParkingSpot()
         })
     }
 
     fun getUserDetailsFromRepo() {
         viewModelScope.launch {
             userDetails.value = repository.getUserDetails()
+        }
+    }
+
+    fun fetchParkingSpot() {
+        viewModelScope.launch {
+            parkingSpots.value = repository.fetchParkingSpots()
         }
     }
 }
