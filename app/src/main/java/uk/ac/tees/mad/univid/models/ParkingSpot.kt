@@ -1,5 +1,7 @@
 package uk.ac.tees.mad.univid.models
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ParkingSpot(
     val name: String = "",
     val latitude: String = "",

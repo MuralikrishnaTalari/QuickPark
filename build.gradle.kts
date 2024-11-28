@@ -5,3 +5,12 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.51.1" apply false
     alias(libs.plugins.google.gms.google.services) apply false //in other build
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+    }
+}

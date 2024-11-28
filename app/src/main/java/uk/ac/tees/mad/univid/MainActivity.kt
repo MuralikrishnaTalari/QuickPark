@@ -1,16 +1,24 @@
 package uk.ac.tees.mad.univid
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import uk.ac.tees.mad.univid.models.ParkingSpot
+import uk.ac.tees.mad.univid.screens.DetailScreen
 import uk.ac.tees.mad.univid.screens.HomeScreen
 import uk.ac.tees.mad.univid.screens.SignIN
 import uk.ac.tees.mad.univid.screens.SignUP
@@ -31,17 +39,23 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class ParkingNavigation(val route : String){
+sealed class ParkingNavigation(val route: String) {
     object SplashScreen : ParkingNavigation("splash_screen")
     object LoginScreen : ParkingNavigation("login_screen")
     object SignUpScreen : ParkingNavigation("signup_screen")
     object HomeScreen : ParkingNavigation("home_screen")
+    object DetailScreen : ParkingNavigation("details_screen/{item}") {
+        fun createRoute(spot: ParkingSpot): String {
+            val itemJson = Uri.encode(Json.encodeToString(spot))
+            return "details_screen/$itemJson"
+        }
+    }
 }
 
 @Composable
-fun parkingApp(){
+fun parkingApp() {
     val navController = rememberNavController()
-    val viewModel : MainViewModel = viewModel()
+    val viewModel: MainViewModel = viewModel()
     Surface() {
         NavHost(
             navController = navController,
@@ -59,6 +73,18 @@ fun parkingApp(){
             composable(ParkingNavigation.HomeScreen.route) {
                 HomeScreen(navController = navController, viewModel = viewModel)
             }
+            composable(
+                route = ParkingNavigation.DetailScreen.route,
+                arguments = listOf(navArgument("item") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val itemJson = backStackEntry.arguments?.getString("item")
+                val parkingSpot = itemJson?.let { Json.decodeFromString<ParkingSpot>(it) }
+                parkingSpot?.let {
+                    Log.d("DetailScreen", "Parking Spot: $it")
+                    DetailScreen(spot = it)
+                }
+            }
         }
     }
 }
+
