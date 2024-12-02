@@ -2,8 +2,10 @@ package uk.ac.tees.mad.univid.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -48,7 +50,6 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(51.5074, -0.1278), 10f)
     }
-    val showDataList = listOf("Idle", "Search")
     val ShowDataType = remember {
         mutableStateOf("Idle")
     }
@@ -62,7 +63,10 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
         searchCameraState.position = CameraPosition.fromLatLngZoom(LatLng(searchedData.value!!.latitude.toDouble(), searchedData.value!!.longitude.toDouble()), 10f)
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .statusBarsPadding()
+        .navigationBarsPadding()) {
         when (ShowDataType.value) {
             "Idle" -> GoogleMap(
                 modifier = Modifier.fillMaxSize(),
@@ -111,15 +115,19 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
                             )
                         }
                     } else {
-                        Text(text = "No Data Found")
+                        Text(text = "No Data Found", modifier = Modifier.align(Alignment.Center))
                     }
                     Icon(
                         imageVector = Icons.Rounded.Restore,
                         contentDescription = null,
-                        modifier = Modifier.padding(top = 120.dp,end = 20.dp).size(40.dp).align(Alignment.TopEnd).clickable {
-                            searchedData.value = null
-                            ShowDataType.value = "Idle"
-                        },
+                        modifier = Modifier
+                            .padding(top = 120.dp, end = 20.dp)
+                            .size(40.dp)
+                            .align(Alignment.TopEnd)
+                            .clickable {
+                                searchedData.value = null
+                                ShowDataType.value = "Idle"
+                            },
                         tint = Color.Red
                     )
                 }
@@ -154,8 +162,13 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
             },
             singleLine = true
         )
+        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+            BottomNavBar(navController = navController, selectedIcon = bottomNavItems.Home)
+        }
     }
 }
+
+
 
 fun searchForItem(itemList: List<ParkingSpot>, searchingFor: String): ParkingSpot? {
     itemList.forEach {

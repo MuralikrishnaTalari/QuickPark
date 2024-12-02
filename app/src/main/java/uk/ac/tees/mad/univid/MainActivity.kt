@@ -19,7 +19,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import uk.ac.tees.mad.univid.models.ParkingSpot
 import uk.ac.tees.mad.univid.screens.DetailScreen
+import uk.ac.tees.mad.univid.screens.FavoriteScreen
 import uk.ac.tees.mad.univid.screens.HomeScreen
+import uk.ac.tees.mad.univid.screens.ProfileScreen
 import uk.ac.tees.mad.univid.screens.SignIN
 import uk.ac.tees.mad.univid.screens.SignUP
 import uk.ac.tees.mad.univid.screens.SplashScreen
@@ -50,6 +52,8 @@ sealed class ParkingNavigation(val route: String) {
             return "details_screen/$itemJson"
         }
     }
+    object FavoriteScreen : ParkingNavigation("favorite_screen")
+    object ProfileScreen : ParkingNavigation("profile_screen")
 }
 
 @Composable
@@ -83,6 +87,12 @@ fun parkingApp() {
                     Log.d("DetailScreen", "Parking Spot: $it")
                     DetailScreen(spot = it)
                 }
+            }
+            composable(ParkingNavigation.FavoriteScreen.route) {
+                FavoriteScreen()
+            }
+            composable(ParkingNavigation.ProfileScreen.route) {
+                ProfileScreen()
             }
         }
     }
