@@ -149,7 +149,7 @@ fun HomeScreen(navController: NavHostController, viewModel: MainViewModel) {
                 .padding(20.dp)
                 .statusBarsPadding(),
             shape = RoundedCornerShape(20.dp),
-            label = { Text(text = "Search for Parking Places") },
+            label = { Text(text = "Search for Parking Places", color = Color.Gray) },
             trailingIcon = {
                 Icon(imageVector = Icons.Rounded.Search,
                     contentDescription = null,

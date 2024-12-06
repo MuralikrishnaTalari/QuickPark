@@ -62,6 +62,7 @@ fun BottomNavBar(navController: NavHostController, selectedIcon: bottomNavItems)
                     Icon(
                         imageVector = i.icon,
                         contentDescription = null,
+                        tint = if (i == selectedIcon) Color.White else Color.Black,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .size(30.dp)
@@ -69,6 +70,7 @@ fun BottomNavBar(navController: NavHostController, selectedIcon: bottomNavItems)
                     Text(
                         text = i.title,
                         fontFamily = afacadflux,
+                        color = if (i == selectedIcon) Color.White else Color.Black,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
