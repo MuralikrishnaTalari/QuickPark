@@ -56,7 +56,7 @@ fun BottomNavBar(navController: NavHostController, selectedIcon: bottomNavItems)
                         .size(60.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(if (i == selectedIcon) colorScheme.primary else Color.White.copy(alpha = 0.5f))
-                        .clickable { navController.navigate(i.route) },
+                        .clickable { if (i!=selectedIcon) navController.navigate(i.route) },
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(

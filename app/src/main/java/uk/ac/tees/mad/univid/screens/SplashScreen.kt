@@ -45,7 +45,6 @@ fun SplashScreen(navController: NavHostController, viewModel: MainViewModel) {
                 easing = EaseOutBounce
             )
         )
-        delay(3000L)
         if (signed.value){
             navController.navigate(ParkingNavigation.HomeScreen.route){
                 popUpTo(0)

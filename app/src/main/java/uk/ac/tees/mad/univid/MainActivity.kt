@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.univid
 
+import ProfileScreen
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +22,6 @@ import uk.ac.tees.mad.univid.models.ParkingSpot
 import uk.ac.tees.mad.univid.screens.DetailScreen
 import uk.ac.tees.mad.univid.screens.FavoriteScreen
 import uk.ac.tees.mad.univid.screens.HomeScreen
-import uk.ac.tees.mad.univid.screens.ProfileScreen
 import uk.ac.tees.mad.univid.screens.SignIN
 import uk.ac.tees.mad.univid.screens.SignUP
 import uk.ac.tees.mad.univid.screens.SplashScreen
@@ -92,7 +92,7 @@ fun parkingApp() {
                 FavoriteScreen()
             }
             composable(ParkingNavigation.ProfileScreen.route) {
-                ProfileScreen()
+                ProfileScreen(navController = navController, viewModel = viewModel)
             }
         }
     }
