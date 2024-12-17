@@ -11,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +45,6 @@ fun ProfileScreen(navController: NavHostController, viewModel: MainViewModel) {
         if (success) {
             photoUri.value?.let {
                 //viewModel.updateProfilePicture(it)
-                Toast.makeText(context, "Image Captured: $it", Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(context, "Failed to capture image", Toast.LENGTH_SHORT).show()
@@ -134,6 +134,10 @@ fun ProfileScreen(navController: NavHostController, viewModel: MainViewModel) {
                             }
                     )
                 }
+            }
+            Column(modifier = Modifier.fillMaxSize(),horizontalAlignment = Alignment.CenterHorizontally) {
+                TextField(value = name.value, onValueChange = {name.value = it})
+                TextField(value = email.value, onValueChange = {email.value = it})
             }
         }
 
