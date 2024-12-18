@@ -1,6 +1,7 @@
 package uk.ac.tees.mad.univid.repository
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import uk.ac.tees.mad.univid.data.local.ParkingDao
 import uk.ac.tees.mad.univid.models.ParkingSpot
 import uk.ac.tees.mad.univid.models.UserData
 import javax.inject.Inject
@@ -16,7 +18,9 @@ import javax.inject.Inject
 class QuickParkRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val parkingDao: ParkingDao
+
 ) {
 
     fun signUP(context: Context, name: String, email: String, password: String, onSuccess:()->Unit) {
@@ -56,5 +60,42 @@ class QuickParkRepository @Inject constructor(
         parkingSpots.value = result.map { it.toObject(ParkingSpot::class.java) }
         Log.d("ParkingSpots", parkingSpots.value.toString())
         return parkingSpots.value
+    }
+
+    fun uploadProfilePhoto(photo: Uri, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        val storageRef = storage.reference
+        val profileRef = storageRef.child("profile_pictures/${auth.currentUser!!.uid}")
+
+        val uploadTask = profileRef.putFile(photo)
+
+        uploadTask.addOnSuccessListener {
+            profileRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                firestore.collection("users")
+                    .document(auth.currentUser!!.uid)
+                    .update("profilePicture", downloadUrl.toString())
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+                    .addOnFailureListener {
+                        onFailure()
+                    }
+            }.addOnFailureListener {
+                onFailure()
+            }
+        }.addOnFailureListener {
+            onFailure()
+        }
+    }
+
+    fun updateUserDetails(name: String, onSuccess: () -> Unit, onFailed: () -> Unit) {
+        firestore.collection("users").document(auth.currentUser!!.uid).update("name", name).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener {
+            onFailed()
+        }
+    }
+
+    fun signOut() {
+        auth.signOut()
     }
 }

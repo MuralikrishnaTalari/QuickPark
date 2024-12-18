@@ -1,6 +1,7 @@
 package uk.ac.tees.mad.univid.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -61,5 +62,32 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             parkingSpots.value = repository.fetchParkingSpots()
         }
+    }
+
+    fun uploadProfilePhoto(photo: Uri) {
+        loading.value = true
+        repository.uploadProfilePhoto(photo,onSuccess={
+            loading.value = false
+            getUserDetailsFromRepo()
+        }, onFailure ={
+            loading.value = false
+        })
+    }
+
+    fun updateUserDetails(name: String) {
+        loading.value = true
+        repository.updateUserDetails(name, onSuccess = {
+            loading.value = false
+            getUserDetailsFromRepo()
+        }, onFailed ={
+            loading.value = false
+        })
+    }
+
+    fun signOut() {
+        repository.signOut()
+        signed.value = false
+        userDetails.value = UserData()
+        parkingSpots.value = emptyList()
     }
 }
