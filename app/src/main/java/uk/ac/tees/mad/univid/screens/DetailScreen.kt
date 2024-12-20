@@ -42,14 +42,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import uk.ac.tees.mad.univid.models.ParkingSpot
 import uk.ac.tees.mad.univid.ui.theme.afacadflux
+import uk.ac.tees.mad.univid.viewmodel.MainViewModel
 import java.io.IOException
 import java.util.Locale
 
 @Composable
-fun DetailScreen(spot: ParkingSpot, navController: NavHostController) {
+fun DetailScreen(spot: ParkingSpot, navController: NavHostController, viewModel: MainViewModel) {
     val context = LocalContext.current
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -140,7 +142,7 @@ fun DetailScreen(spot: ParkingSpot, navController: NavHostController) {
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { viewModel.insertParkingSpot(spot) }) {
                 Text(
                     text = "Save to Favorite",
                     fontFamily = afacadflux,

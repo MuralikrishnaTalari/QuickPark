@@ -85,7 +85,7 @@ fun parkingApp() {
                 val parkingSpot = itemJson?.let { Json.decodeFromString<ParkingSpot>(it) }
                 parkingSpot?.let {
                     Log.d("DetailScreen", "Parking Spot: $it")
-                    DetailScreen(spot = it, navController = navController)
+                    DetailScreen(spot = it, navController = navController, viewModel = viewModel)
                 }
             }
             composable(ParkingNavigation.FavoriteScreen.route) {

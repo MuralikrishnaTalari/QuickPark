@@ -98,4 +98,18 @@ class QuickParkRepository @Inject constructor(
     fun signOut() {
         auth.signOut()
     }
+
+    suspend fun insertParkingSpot(spot: ParkingSpot, onSuccess: () -> Unit) {
+        val isSpotAlreadyAdded = parkingDao.getParkingSpotByName(spot.name)
+        if (isSpotAlreadyAdded == null) {
+            parkingDao.insertParkingSpot(spot)
+            onSuccess()
+        }
+    }
+
+    suspend fun getAllFromDatabase(): List<ParkingSpot> {
+        val result = parkingDao.getAllParkingSpots()
+        Log.d("ParkingSpots", result.toString())
+        return result
+    }
 }

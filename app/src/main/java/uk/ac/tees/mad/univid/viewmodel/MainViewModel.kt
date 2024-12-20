@@ -2,6 +2,7 @@ package uk.ac.tees.mad.univid.viewmodel
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +22,7 @@ class MainViewModel @Inject constructor(
     val userDetails = mutableStateOf(UserData())
     val loading = mutableStateOf(false)
     val parkingSpots = mutableStateOf<List<ParkingSpot>>(emptyList())
+    val savedParkingSpot = mutableStateOf<List<ParkingSpot>?>(null)
 
     init {
         viewModelScope.launch {
@@ -89,5 +91,19 @@ class MainViewModel @Inject constructor(
         signed.value = false
         userDetails.value = UserData()
         parkingSpots.value = emptyList()
+    }
+
+    fun insertParkingSpot(spot: ParkingSpot) {
+        viewModelScope.launch {
+            repository.insertParkingSpot(spot, onSuccess = {
+                fetchFromDb()
+            })
+        }
+    }
+    fun fetchFromDb() {
+        viewModelScope.launch {
+            savedParkingSpot.value = repository.getAllFromDatabase()
+            Log.d("savedParkingSpot", savedParkingSpot.value.toString())
+        }
     }
 }

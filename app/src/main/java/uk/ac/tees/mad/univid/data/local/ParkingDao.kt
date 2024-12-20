@@ -19,4 +19,7 @@ interface ParkingDao {
     @Delete
     suspend fun deleteParkingSpot(parkingSpot: ParkingSpot)
 
+    @Query("SELECT * FROM parking_spots WHERE name = :name")
+    suspend fun getParkingSpotByName(name: String): ParkingSpot?
+
 }
