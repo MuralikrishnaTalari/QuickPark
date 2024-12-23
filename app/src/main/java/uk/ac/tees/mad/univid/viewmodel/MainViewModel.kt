@@ -30,6 +30,7 @@ class MainViewModel @Inject constructor(
             if (signed.value){
                 getUserDetailsFromRepo()
                 fetchParkingSpot()
+                fetchFromDb()
             }
         }
     }
@@ -104,6 +105,12 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             savedParkingSpot.value = repository.getAllFromDatabase()
             Log.d("savedParkingSpot", savedParkingSpot.value.toString())
+        }
+    }
+    fun deleteParkingSpot(spot: ParkingSpot) {
+        viewModelScope.launch {
+            repository.deleteParkingSpot(spot)
+            fetchFromDb()
         }
     }
 }

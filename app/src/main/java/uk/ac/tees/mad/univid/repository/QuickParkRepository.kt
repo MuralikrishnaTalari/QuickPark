@@ -112,4 +112,8 @@ class QuickParkRepository @Inject constructor(
         Log.d("ParkingSpots", result.toString())
         return result
     }
+
+    suspend fun deleteParkingSpot(spot: ParkingSpot) {
+        parkingDao.deleteParkingSpot(spot)
+    }
 }

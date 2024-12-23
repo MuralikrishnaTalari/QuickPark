@@ -89,7 +89,7 @@ fun parkingApp() {
                 }
             }
             composable(ParkingNavigation.FavoriteScreen.route) {
-                FavoriteScreen()
+                FavoriteScreen(navController,viewModel)
             }
             composable(ParkingNavigation.ProfileScreen.route) {
                 ProfileScreen(navController = navController, viewModel = viewModel)
