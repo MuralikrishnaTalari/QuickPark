@@ -23,15 +23,18 @@ class QuickParkRepository @Inject constructor(
 
 ) {
 
-    fun signUP(context: Context, name: String, email: String, password: String, onSuccess:()->Unit) {
+    fun signUP(context: Context, name: String, email: String, password: String, onSuccess:()->Unit, onFailure: (String) -> Unit) {
         val user = UserData(name = name, email = email, password = password)
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
             firestore.collection("users").document(it.user!!.uid).set(user).addOnSuccessListener {
                 Toast.makeText(context, "Sign up Successful", Toast.LENGTH_SHORT).show()
                 onSuccess()
             }.addOnFailureListener { error->
-                Toast.makeText(context, error.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error", error.localizedMessage)
+                onFailure(error.localizedMessage!!)
             }
+        }.addOnFailureListener {
+            onFailure(it.localizedMessage!!)
         }
     }
 
@@ -41,12 +44,12 @@ class QuickParkRepository @Inject constructor(
         return response!!
     }
 
-    fun signIn(context: Context, email: String, password: String, onSuccess: () -> Unit) {
+    fun signIn(context: Context, email: String, password: String, onSuccess: () -> Unit,onFailure: (String) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
             Toast.makeText(context, "Sign in Successful", Toast.LENGTH_SHORT).show()
             onSuccess()
         }.addOnFailureListener { error->
-            Toast.makeText(context, error.localizedMessage, Toast.LENGTH_SHORT).show()
+            error.localizedMessage?.let { onFailure(it) }
         }
     }
 

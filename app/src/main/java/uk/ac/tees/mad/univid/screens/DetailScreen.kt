@@ -174,7 +174,7 @@ fun DetailScreen(spot: ParkingSpot, navController: NavHostController, viewModel:
     }
 }
 
-private fun makePhoneCall(context: android.content.Context, phoneNumber: String) {
+fun makePhoneCall(context: android.content.Context, phoneNumber: String) {
     val callIntent = Intent(Intent.ACTION_CALL)
     callIntent.data = Uri.parse("tel:$phoneNumber")
     if (ActivityCompat.checkSelfPermission(

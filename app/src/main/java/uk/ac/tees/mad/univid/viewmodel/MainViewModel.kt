@@ -3,6 +3,7 @@ package uk.ac.tees.mad.univid.viewmodel
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -42,6 +43,9 @@ class MainViewModel @Inject constructor(
             loading.value = false
             getUserDetailsFromRepo()
             fetchParkingSpot()
+        }, onFailure = {
+            loading.value = false
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
     }
 
@@ -52,6 +56,9 @@ class MainViewModel @Inject constructor(
             loading.value = false
             getUserDetailsFromRepo()
             fetchParkingSpot()
+        }, onFailure = {
+            loading.value = false
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         })
     }
 
